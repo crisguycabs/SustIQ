@@ -38,8 +38,8 @@
             this.ventanasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verProfesoresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verSalonesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verConfiguracionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,6 +80,7 @@
             this.abrirProyectoToolStripMenuItem.Name = "abrirProyectoToolStripMenuItem";
             this.abrirProyectoToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.abrirProyectoToolStripMenuItem.Text = "&Abrir Sustentacion";
+            this.abrirProyectoToolStripMenuItem.Click += new System.EventHandler(this.abrirProyectoToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -117,19 +118,19 @@
             this.verSalonesToolStripMenuItem.Text = "Ver &Salones";
             this.verSalonesToolStripMenuItem.Click += new System.EventHandler(this.verSalonesToolStripMenuItem_Click);
             // 
-            // acercaDeToolStripMenuItem
-            // 
-            this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
-            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
-            this.acercaDeToolStripMenuItem.Text = "A&cerca de";
-            this.acercaDeToolStripMenuItem.Click += new System.EventHandler(this.acercaDeToolStripMenuItem_Click);
-            // 
             // verConfiguracionToolStripMenuItem
             // 
             this.verConfiguracionToolStripMenuItem.Name = "verConfiguracionToolStripMenuItem";
             this.verConfiguracionToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.verConfiguracionToolStripMenuItem.Text = "Ver &Configuracion";
             this.verConfiguracionToolStripMenuItem.Click += new System.EventHandler(this.verConfiguracionToolStripMenuItem_Click);
+            // 
+            // acercaDeToolStripMenuItem
+            // 
+            this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
+            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.acercaDeToolStripMenuItem.Text = "A&cerca de";
+            this.acercaDeToolStripMenuItem.Click += new System.EventHandler(this.acercaDeToolStripMenuItem_Click);
             // 
             // Main
             // 

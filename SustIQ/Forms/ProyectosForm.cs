@@ -31,6 +31,7 @@ namespace SustIQ
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            padre.GuardarSustentacion();
             padre.CerrarProyectosForm();
             this.Close();
         }
@@ -94,9 +95,9 @@ namespace SustIQ
         {
             for(int i=0;i<padre.profesores.Count;i++)
             {
-                comboDirector.Items.Add(padre.profesores[i].nombres + " " + padre.profesores[i].apellidos);
-                comboEval1.Items.Add(padre.profesores[i].nombres + " " + padre.profesores[i].apellidos);
-                comboEval2.Items.Add(padre.profesores[i].nombres + " " + padre.profesores[i].apellidos);
+                comboDirector.Items.Add(padre.profesores[i].apellidos + " " + padre.profesores[i].nombres);
+                comboEval1.Items.Add(padre.profesores[i].apellidos + " " + padre.profesores[i].nombres);
+                comboEval2.Items.Add(padre.profesores[i].apellidos + " " + padre.profesores[i].nombres);
             }
         }
 
