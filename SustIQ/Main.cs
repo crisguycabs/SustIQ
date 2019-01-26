@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Net.Mail;
 
 namespace SustIQ
 {
@@ -39,11 +40,6 @@ namespace SustIQ
         /// lista de profesores que se lee desde archivo y se escribe en archivo
         /// </summary>
         public List<CProfesor> profesores = null;
-
-        /// <summary>
-        /// Lista de proyectos de grado
-        /// </summary>
-        public List<CProyecto> proyectos = null;
 
         /// <summary>
         /// lista de salones que se lee desde archivo y se escribe en archivo
@@ -100,25 +96,102 @@ namespace SustIQ
         /// </summary>
         public bool abiertoSalonesForm = false;
 
-        /// <summary>
-        /// Instancia de la forma
-        /// </summary>
         public SustentacionForm sustentacionForm = null;
 
+        public bool abiertoSustentacion = false;
+
         /// <summary>
-        /// Indica si la forma esta abierta o no
+        /// Sustentacion actual que se esta trabajando
         /// </summary>
-        public bool abiertoSustentacionForm = false;
+        public CSustentacion actual = null;
 
-        public ProyectosForm proyectosForm = null;
+        public s proyectosForm = null;
 
-        public bool abiertoProyectosForm = false;
+        public bool abiertoProyectos = false;
+
+        public OrganizacionForm organizacionForm = null;
+
+        public bool abiertoOrganizacion = false;
+
+        public string correo = "";
+
+        public string password = "";
+
+        public ConfiguracionForm configuracionForm = null;
+
+        public bool abiertoConfiguracion = false;
 
         #endregion
 
         public Main()
         {
             InitializeComponent();
+        }
+
+        public static bool EnviarMailProyecto(CProyecto pa,string correo, string pass, DateTime fecha, string hora, string salon)
+        {
+            SmtpClient client = new SmtpClient("smtp-mail.outlook.com");
+
+            client.Port = 587;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(correo,pass);
+            client.EnableSsl = true;
+            client.Credentials = credentials;
+
+            try
+            {
+                var mail = new MailMessage();
+                mail.From = new MailAddress(correo);
+                mail.To.Add(pa.estudiante1.correo);
+                mail.To.Add(pa.estudiante2.correo);
+                mail.Subject = "Horario de sustentacion de proyecto de grado";
+                mail.Body = "Cordial saludo\r\n\r\n";
+                mail.Body = mail.Body + "Codigo: " + pa.codigo + "\r\n";
+                mail.Body = mail.Body + "Nombre: " + pa.nombre.ToUpper() + "\r\n\r\n";
+                mail.Body = mail.Body + fecha.Day + " de " + fecha.Month + ", " + hora + ", " + " salon " + salon + "\r\n\r\n";
+                mail.Body = mail.Body + "Director: " + pa.director.nombres.ToUpper() + " " + pa.director.apellidos.ToUpper() + "\r\n";
+                mail.Body = mail.Body + "Evaluadores: " + pa.evaluador1.nombres.ToUpper() + " " + pa.evaluador1.apellidos.ToUpper() + " | " + pa.evaluador2.nombres.ToUpper() + " " + pa.evaluador2.apellidos.ToUpper() + "\r\n\r\n";
+                mail.Attachments.Add(new Attachment(pa.soporte));
+                client.Send(mail);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Calcula la distancia entre dos proyectos, basandose en si tienen o no los mismos profesores
+        /// </summary>
+        /// <param name="pA"></param>
+        /// <param name="pB"></param>
+        /// <returns>min 0: ambos proyectos tienen los mismos profesores; max 3: los proyectos no tienen profesores en comun</returns>
+        public static int Distancia(CProyecto pA, CProyecto pB)
+        {
+            int distancia = 3;
+
+            if ((pA.director == pB.director) || (pA.director == pB.evaluador1) || (pA.director == pB.evaluador2)) distancia--;
+            if ((pA.evaluador1 == pB.director) || (pA.evaluador1 == pB.evaluador1) || (pA.evaluador1 == pB.evaluador2)) distancia--;
+            if ((pA.evaluador2 == pB.director) || (pA.evaluador2 == pB.evaluador1) || (pA.evaluador2 == pB.evaluador2)) distancia--;
+
+            return distancia;
+        }
+
+        /// <summary>
+        /// Indica si dos proyectos tienen conflicto. Es decir, comparten algun profesor en algun papel
+        /// </summary>
+        /// <param name="pA"></param>
+        /// <param name="pB"></param>
+        /// <returns></returns>
+        public static bool Conflicto(CProyecto pA, CProyecto pB)
+        {
+            if ((pA.director == pB.director) || (pA.director == pB.evaluador1) || (pA.director == pB.evaluador2)) return true;
+            if ((pA.evaluador1 == pB.director) || (pA.evaluador1 == pB.evaluador1) || (pA.evaluador1 == pB.evaluador2)) return true;
+            if ((pA.evaluador2 == pB.director) || (pA.evaluador2 == pB.evaluador1) || (pA.evaluador2 == pB.evaluador2)) return true;
+
+            return false;
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -136,7 +209,8 @@ namespace SustIQ
             // se leen los salones que existen en archivo
             LeerSalones();
 
-            proyectos = new List<CProyecto>();
+            // se lee la configuracion
+            CargarConfiguracion();
 
             AbrirInicioForm();
         }
@@ -156,14 +230,133 @@ namespace SustIQ
             sw.WriteLine("M.Sc. C. Barajas-Solano, Ph.D. Paola Maradei");
             sw.WriteLine("2018");
             sw.WriteLine("");
-            sw.WriteLine("Nombres\tApellidos\tCorreo");
-
+            sw.WriteLine(profesores.Count.ToString());
+            sw.WriteLine("--------------------------");
+            
+            string line;
             for (int i = 0; i < profesores.Count; i++)
             {
-                sw.WriteLine(profesores[i].nombres + '\t' + profesores[i].apellidos + '\t' + profesores[i].correo);
+                // se escriben los datos personales
+                line = profesores[i].nombres + '\t' + profesores[i].apellidos + '\t' + profesores[i].correo;
+                if (profesores[i].planta) line = line + "\t1";
+                else line = line + "\t0";
+                sw.WriteLine(line);
+
+                // se escribe la disponibilidad para el dia lunes en la mañana, pero en forma horizontal
+                line = "";
+                for (int j = 0; j < profesores[i].dispMañana.GetLength(0); j++)
+                {
+                    if(profesores[i].dispMañana[j,0]) line += "1\t";
+                    else line += "0\t";
+                }
+                sw.WriteLine(line);
+
+                // se escribe la disponibilidad para el dia lunes en la tarde, pero en forma horizontal
+                line = "";
+                for (int j = 0; j < profesores[i].dispTarde.GetLength(0); j++)
+                {
+                    if (profesores[i].dispTarde[j, 0]) line += "1\t";
+                    else line += "0\t";
+                }
+                sw.WriteLine(line);
+
+                // se escribe la disponibilidad para el dia viernes en la mañana, pero en forma horizontal
+                line = "";
+                for (int j = 0; j < profesores[i].dispMañana.GetLength(0); j++)
+                {
+                    if (profesores[i].dispMañana[j, 1]) line += "1\t";
+                    else line += "0\t";
+                }
+                sw.WriteLine(line);
+
+                // se escribe la disponibilidad para el dia viernes en la tarde, pero en forma horizontal
+                line = "";
+                for (int j = 0; j < profesores[i].dispTarde.GetLength(0); j++)
+                {
+                    if (profesores[i].dispTarde[j, 1]) line += "1\t";
+                    else line += "0\t";
+                }
+                sw.WriteLine(line);
+
+                sw.WriteLine("--------------------------");
             }
 
             sw.Close();
+        }
+
+        /// <summary>
+        /// Lee la lista de profesores en archivo. Si existe un error al leer el archivo cancela la operacion. Si no encuentra el archivo crea uno nuevo
+        /// </summary>
+        /// <returns></returns>
+        public void LeerProfesores()
+        {
+            profesores = new List<CProfesor>();
+
+            if (File.Exists(thisPath + "\\Resources\\Profesores.siq"))
+            {
+                StreamReader sr = new StreamReader(thisPath + "\\Resources\\Profesores.siq", System.Text.Encoding.Default, true);
+
+                string line;
+                string[] line2;
+
+                // se leen las primeras cuatro lineas
+                for (int i = 0; i < 4; i++) line = sr.ReadLine();
+
+                // se lee el numero de profesores
+                int nprof = Convert.ToInt32(sr.ReadLine());
+
+                for (int i = 0; i < nprof; i++)
+                {
+                    line = sr.ReadLine();
+
+                    line = sr.ReadLine();
+                    line2 = line.Split('\t');
+                    profesores.Add(new CProfesor());
+                    profesores[i].nombres = line2[0];
+                    profesores[i].apellidos = line2[1];
+                    profesores[i].correo = line2[2];
+                    profesores[i].planta = (line2[3] == "1");
+
+                    // disponibilidad lunes en la mañana
+                    line = sr.ReadLine();
+                    line2 = line.Split('\t');
+                    for (int j = 0; j < profesores[i].dispMañana.GetLength(0); j++) profesores[i].dispMañana[j, 0] = (line2[j] == "1");
+
+                    // disponibilidad lunes en la tarde
+                    line = sr.ReadLine();
+                    line2 = line.Split('\t');
+                    for (int j = 0; j < profesores[i].dispTarde.GetLength(0); j++) profesores[i].dispTarde[j, 0] = (line2[j] == "1");
+
+                    // disponibilidad viernes en la mañana
+                    line = sr.ReadLine();
+                    line2 = line.Split('\t');
+                    for (int j = 0; j < profesores[i].dispMañana.GetLength(0); j++) profesores[i].dispMañana[j, 1] = (line2[j] == "1");
+
+                    // disponibilidad viernes en la tarde
+                    line = sr.ReadLine();
+                    line2 = line.Split('\t');
+                    for (int j = 0; j < profesores[i].dispTarde.GetLength(0); j++) profesores[i].dispTarde[j, 1] = (line2[j] == "1");
+                    
+                }
+
+                sr.Close();
+
+                profesores.Sort((x, y) => x.apellidos.CompareTo(y.apellidos));
+            }
+            else
+            {
+                // no existe el archivo, se pregunta si se quiere crear un archivo nuevo, o se termina la aplicación
+                if (MessageBox.Show("No se encuentra el listado de profesores. \r\n\r\nDesea generar un nuevo listado vacío y continuar?", "Error al leer el listado de profesores", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                {
+                    if (!Directory.Exists(thisPath + "\\Resources")) Directory.CreateDirectory(thisPath + "\\Resources");
+
+                    File.Create(thisPath + "\\Resources\\Profesores.siq");
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
         }
 
         public void EscribirSalones()
@@ -188,55 +381,10 @@ namespace SustIQ
 
             sw.Close();
         }
+
+
+
         
-        /// <summary>
-        /// Lee la lista de profesores en archivo. Si existe un error al leer el archivo cancela la operacion. Si no encuentra el archivo crea uno nuevo
-        /// </summary>
-        /// <returns></returns>
-        public void LeerProfesores()
-        {
-            profesores = new List<CProfesor>();
-
-            if (File.Exists(thisPath + "\\Resources\\Profesores.siq"))
-            {
-                StreamReader sr = new StreamReader(thisPath + "\\Resources\\Profesores.siq", System.Text.Encoding.Default, true);
-                
-                string line;
-                string[] line2;
-
-                // se leen las primeras cinco lineas
-                for (int i = 0; i < 5; i++) line = sr.ReadLine();
-
-                while ((line = sr.ReadLine()) != null)
-                {
-                    try
-                    {
-                        line2 = line.Split('\t');
-                        profesores.Add(new CProfesor(line2[0], line2[1], line2[2]));
-                    }
-                    catch { }
-                }
-
-                sr.Close();
-
-                profesores.Sort((x, y) => x.apellidos.CompareTo(y.apellidos));
-            }
-            else
-            {
-                // no existe el archivo, se pregunta si se quiere crear un archivo nuevo, o se termina la aplicación
-                if(MessageBox.Show("No se encuentra el listado de profesores. \r\n\r\nDesea generar un nuevo listado vacío y continuar?","Error al leer el listado de profesores",MessageBoxButtons.YesNo,MessageBoxIcon.Error)==DialogResult.Yes)
-                {
-                    if (!Directory.Exists(thisPath + "\\Resources")) Directory.CreateDirectory(thisPath + "\\Resources");
-
-                    File.Create(thisPath + "\\Resources\\Profesores.siq");
-                }
-                else
-                {
-                    Application.Exit();
-                }
-            }
-
-        }
 
         public static bool ValidarEmail(string cadena)
         {
@@ -257,31 +405,10 @@ namespace SustIQ
             else agregarSalonForm.Select();
         }
 
-        public void AbrirSustentacionesForm()
-        {
-            if (!abiertoSustentacionForm)
-            {
-                sustentacionForm = new SustentacionForm();
-                sustentacionForm.padre = this;
-                sustentacionForm.MdiParent = this;
-                abiertoSustentacionForm = true;
-                sustentacionForm.Show();
-            }
-            else sustentacionForm.Select();
-        }
-
         public void CerrarAddSalonesForm()
         {
             abiertoAddSalonForm = false;
             agregarSalonForm = null;
-        }
-
-        public void CerrarSustentacionForm()
-        {
-            abiertoSustentacionForm = false;
-            sustentacionForm = null;
-
-            AbrirInicioForm();
         }
 
         /// <summary>
@@ -315,8 +442,6 @@ namespace SustIQ
                 }
 
                 sr.Close();
-
-                salones.Sort((x, y) => x.edificio.CompareTo(y.edificio));
             }
             else
             {
@@ -341,23 +466,47 @@ namespace SustIQ
             {
                 profesoresForm = new FormProfesores();
                 profesoresForm.padre = this;
-                profesoresForm.MdiParent = this;
                 abiertoProfesoresForm = true;
-                profesoresForm.Show();
+                profesoresForm.ShowDialog();
             }
             else profesoresForm.Select();            
         }
 
-        public void AbrirProyectosForm()
+        public void AbrirConfiguracion()
         {
-            if (!abiertoProyectosForm)
+            if (!abiertoConfiguracion)
             {
-                proyectosForm = new ProyectosForm();
-                proyectosForm.padre = this;
-                abiertoProyectosForm = true;
-                proyectosForm.ShowDialog();
+                configuracionForm = new ConfiguracionForm();
+                configuracionForm.padre = this;
+                abiertoConfiguracion= true;
+                configuracionForm.ShowDialog();
             }
-            else proyectosForm.Select();
+        }
+
+        public void CerrarConfiguracion()
+        {
+            abiertoConfiguracion = false;
+            configuracionForm = null;
+        }
+
+        public void AbrirSustentacion()
+        {
+            if (!abiertoSustentacion)
+            {
+                sustentacionForm = new SustentacionForm();
+                sustentacionForm.padre = this;
+                sustentacionForm.MdiParent = this;
+                abiertoSustentacion = true;
+                sustentacionForm.Show();
+            }
+            else sustentacionForm.Select();
+        }
+
+        public void CerrarSustentacionForm()
+        {
+            abiertoSustentacion = false;
+            sustentacionForm = null;
+            AbrirInicioForm();
         }
 
         public void AbrirSalonesForm()
@@ -371,6 +520,349 @@ namespace SustIQ
                 salonesForm.Show();
             }
             else salonesForm.Select();
+        }
+
+        public void AbrirProyectosForm()
+        {
+            if (!abiertoProyectos)
+            {
+                proyectosForm = new s();
+                proyectosForm.padre = this;
+                abiertoProyectos = true;
+                proyectosForm.ShowDialog();
+            }
+            else proyectosForm.Select();
+        }
+
+        public void CerrarProyectosForm()
+        {
+            proyectosForm = null;
+            abiertoProyectos = false;
+        }
+
+        public void NuevaSustentacion()
+        {
+            SaveFileDialog salvar = new SaveFileDialog();
+            salvar.Title = "Escoga el nombre y carpeta para crear la nueva sustentacion...";
+            salvar.Filter = "Archivo de sustentacion (*.sust)|*.sust";
+            salvar.DefaultExt = "sust";
+            if (salvar.ShowDialog() == DialogResult.OK)
+            {
+                string folder = Path.GetDirectoryName(salvar.FileName) + "\\" + Path.GetFileNameWithoutExtension(salvar.FileName);
+                if(!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
+                actual = new CSustentacion();
+                actual.path = folder + "\\" + Path.GetFileName(salvar.FileName);
+                
+                AbrirSustentacion();
+                inicio.Close();
+                CerrarInicio();
+            }
+        }
+
+        public void CargarConfiguracion()
+        {
+            if (File.Exists(thisPath + "\\Resources\\Configuracion.siq"))
+            {
+                StreamReader sr = new StreamReader(thisPath + "\\Resources\\Configuracion.siq", System.Text.Encoding.Default, true);
+
+                string line;
+                
+                // se leen las primeras cuatro lineas
+                for (int i = 0; i < 4; i++) line = sr.ReadLine();
+
+                correo = sr.ReadLine();
+                password = sr.ReadLine();
+
+                sr.Close();
+            }
+            else
+            {
+                // no existe el archivo de configuracion
+                MessageBox.Show("No se encuentra el archivo de configuracion.\r\n\r\nLa aplicacion se cerrara", "Error al cargar la configuracion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+        }
+
+        public void GuardarConfiguracion()
+        {
+            if (!File.Exists(thisPath + "\\Resources\\Configuracion.siq"))
+            {
+                File.Create(thisPath + "\\Resources\\Configuracion.siq");
+            }
+
+            StreamWriter sw = new StreamWriter(thisPath + "\\Resources\\Configuracion.siq", false, System.Text.Encoding.UTF8);
+
+            sw.WriteLine("SUSTIQ: Sustentaciones Escuela de Ingenieria Quimica - UIS");
+            sw.WriteLine("M.Sc. C. Barajas-Solano, Ph.D. Paola Maradei");
+            sw.WriteLine("2018");
+            sw.WriteLine("");
+            sw.WriteLine(correo);
+            sw.WriteLine(password);
+
+            sw.Close();
+        }
+
+        /// <summary>
+        /// Se guarda en disco toda la informacion de la sustentacion
+        /// </summary>
+        public void GuardarSustentacion()
+        {
+            //if (!File.Exists(actual.path)) File.Create(actual.path);
+            StreamWriter sw = new StreamWriter(actual.path, false, System.Text.Encoding.UTF8);
+            
+            // cabecera
+            sw.WriteLine("SUSTIQ: Sustentaciones Escuela de Ingenieria Quimica - UIS");
+            sw.WriteLine("M.Sc. C. Barajas-Solano, Ph.D. Paola Maradei");
+            sw.WriteLine("2018");
+            sw.WriteLine("");
+
+            sw.WriteLine("FECHA");
+            sw.WriteLine(actual.fecha.Day.ToString() + "\t" + actual.fecha.Month.ToString() + "\t" + actual.fecha.Year.ToString());
+
+            sw.WriteLine("MAÑANA");
+            if (actual.jornadaMañana) sw.WriteLine("true");
+            else sw.WriteLine("false");
+
+            sw.WriteLine("TARDE");
+            if (actual.jornadaTarde) sw.WriteLine("true");
+            else sw.WriteLine("false");
+
+            sw.WriteLine("INICIO MAÑANA");
+            sw.WriteLine(actual.iniMañana);
+            sw.WriteLine("FIN MAÑANA");
+            sw.WriteLine(actual.finMañana);
+
+            sw.WriteLine("INICIO TARDE");
+            sw.WriteLine(actual.iniTarde);
+            sw.WriteLine("FIN MAÑANA");
+            sw.WriteLine(actual.finTarde);
+
+            sw.WriteLine("COUNT");
+            sw.WriteLine(actual.proyectos.Count.ToString());
+            sw.WriteLine("--------------");
+            for (int i = 0; i < actual.proyectos.Count; i++)
+            {
+                sw.WriteLine(actual.proyectos[i].codigo.ToString());
+                sw.WriteLine(actual.proyectos[i].nombre);
+                sw.WriteLine(actual.proyectos[i].soporte);
+                sw.WriteLine(actual.proyectos[i].estudiante1.nombre + "\t" + actual.proyectos[i].estudiante1.correo);
+                if(actual.proyectos[i].estudiante2.correo==null)
+                { // no existe el estudiante 2, se guarda una cadena que signifique vacio   
+                    sw.WriteLine("--\t--");
+                }
+                else
+                {
+                    sw.WriteLine(actual.proyectos[i].estudiante2.nombre + "\t" + actual.proyectos[i].estudiante2.correo);
+                }
+                if (actual.proyectos[i].incluir) sw.WriteLine("1");
+                else sw.WriteLine("0");
+                sw.WriteLine(actual.proyectos[i].director.nombres + "\t" + actual.proyectos[i].director.apellidos + "\t" + actual.proyectos[i].director.correo);
+                sw.WriteLine(actual.proyectos[i].evaluador1.nombres + "\t" + actual.proyectos[i].evaluador1.apellidos + "\t" + actual.proyectos[i].evaluador1.correo);
+                sw.WriteLine(actual.proyectos[i].evaluador2.nombres + "\t" + actual.proyectos[i].evaluador2.apellidos + "\t" + actual.proyectos[i].evaluador2.correo);
+                sw.WriteLine("--------------");
+            }
+            sw.WriteLine("LISTO ORDEN");
+            if (actual.listoOrden)
+            {
+                sw.WriteLine("true");
+                
+                sw.WriteLine("N SALONES");
+                sw.WriteLine(actual.nombresSalones.Count.ToString());
+                string linea="";
+                for (int i = 0; i < (actual.nombresSalones.Count); i++) linea = linea + actual.nombresSalones[i] + "\t";                
+                sw.WriteLine(linea);
+
+                if (actual.jornadaMañana)
+                {
+                    sw.WriteLine("N HORAS MAÑANA");
+                    sw.WriteLine(actual.horasMañana.Count.ToString());
+                    linea = "";
+                    for (int i = 0; i < (actual.horasMañana.Count); i++) linea = linea + actual.horasMañana[i] + "\t";
+                    sw.WriteLine(linea);
+                }
+
+                if (actual.jornadaTarde)
+                {
+                    sw.WriteLine("N HORAS TARDE");
+                    sw.WriteLine(actual.horasTarde.Count.ToString());
+                    linea = "";
+                    for (int i = 0; i < (actual.horasTarde.Count); i++) linea = linea + actual.horasTarde[i] + "\t";
+                    sw.WriteLine(linea);
+                }
+
+                sw.WriteLine("ORGANIZACION MAÑANA");
+                for (int i = 0; i < actual.horasMañana.Count; i++)
+                {
+                    linea = "";
+                    for (int j = 0; j < actual.nombresSalones.Count; j++) linea = linea + actual.matrizMañana[i, j].ToString() + "\t";
+                    sw.WriteLine(linea);                    
+                }
+                sw.WriteLine("ORGANIZACION TARDE");
+                for (int i = 0; i < actual.horasTarde.Count; i++)
+                {
+                    linea = "";
+                    for (int j = 0; j < actual.nombresSalones.Count; j++) linea = linea + actual.matrizTarde[i, j].ToString() + "\t";
+                    sw.WriteLine(linea);
+                }
+
+            }
+            else sw.WriteLine("false");
+            sw.Close();
+
+            MessageBox.Show("Sustentacion guardada exitosamente en " + actual.path, "Guardado exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public void CargarSustentacion(string path)
+        {
+            string line = "";
+            string[] line2=null;
+
+            actual = new CSustentacion();
+            actual.path = path;
+
+            StreamReader sr = new StreamReader(path, System.Text.Encoding.Default, true);
+
+            // se leen las primeras 4 lineas de la cabecera y FECHA
+            for (int i = 0; i < 5; i++) sr.ReadLine();
+
+            // fecha
+            line=sr.ReadLine();
+            line2=line.Split('\t');
+            actual.fecha = new DateTime(Convert.ToInt32(line2[2]), Convert.ToInt32(line2[1]), Convert.ToInt32(line2[0]));
+
+            // jornada mañana
+            line = sr.ReadLine();
+            actual.jornadaMañana=(sr.ReadLine()=="true");
+
+            // jornada tarde
+            line = sr.ReadLine();
+            actual.jornadaTarde = (sr.ReadLine() == "true");
+
+            // inicio mañana
+            line = sr.ReadLine();
+            actual.iniMañana = Convert.ToInt32(sr.ReadLine());
+
+            // fin mañana
+            line = sr.ReadLine();
+            actual.finMañana = Convert.ToInt32(sr.ReadLine());
+
+            // inicio tarde
+            line = sr.ReadLine();
+            actual.iniTarde = Convert.ToInt32(sr.ReadLine());
+
+            // fin tarde
+            line = sr.ReadLine();
+            actual.finTarde = Convert.ToInt32(sr.ReadLine());
+
+            // numero de proyectos
+            line = sr.ReadLine();
+            int nproyectos = Convert.ToInt32(sr.ReadLine());
+            line = sr.ReadLine();
+
+            actual.proyectos=new List<CProyecto>();
+            for (int i = 0; i < nproyectos; i++)
+            {
+                actual.proyectos.Add(new CProyecto());
+
+                actual.proyectos[i].codigo = Convert.ToInt32(sr.ReadLine());
+                actual.proyectos[i].nombre = sr.ReadLine();
+                actual.proyectos[i].soporte = sr.ReadLine();
+                line = sr.ReadLine();
+                line2 = line.Split('\t');
+                actual.proyectos[i].estudiante1 = new CEstudiante(line2[0], line2[1]);
+                line = sr.ReadLine();
+                line2 = line.Split('\t');
+                if (line2[0] == "--"){
+                    actual.proyectos[i].estudiante2 = new CEstudiante();
+                }
+                else{
+                    actual.proyectos[i].estudiante2 = new CEstudiante(line2[0], line2[1]);
+                }
+                line = sr.ReadLine();
+                if (line == "1") actual.proyectos[i].incluir = true;
+                else actual.proyectos[i].incluir = false;
+                line = sr.ReadLine();
+                line2 = line.Split('\t');
+                actual.proyectos[i].director = new CProfesor(line2[0], line2[1], line2[2]);
+                line = sr.ReadLine();
+                line2 = line.Split('\t');
+                actual.proyectos[i].evaluador1 = new CProfesor(line2[0], line2[1], line2[2]);
+                line = sr.ReadLine();
+                line2 = line.Split('\t');
+                actual.proyectos[i].evaluador2 = new CProfesor(line2[0], line2[1], line2[2]);               
+
+                sr.ReadLine();
+            }
+            line = sr.ReadLine();
+            line = sr.ReadLine();
+            if (line == "true")
+            {
+                // existe una organizacion a cargar
+                actual.listoOrden = true;
+                
+                line = sr.ReadLine();
+                int nsalones = Convert.ToInt32(sr.ReadLine());
+                actual.nombresSalones = new List<string>();
+                line = sr.ReadLine();
+                line2 = line.Split('\t');
+                for (int i = 0; i < nsalones; i++) actual.nombresSalones.Add(line2[i]);
+
+                int nhorasmañana=0;
+                if (actual.jornadaMañana)
+                {
+                    line = sr.ReadLine();
+                    nhorasmañana = Convert.ToInt32(sr.ReadLine());
+                    actual.horasMañana = new List<string>();
+                    line = sr.ReadLine();
+                    line2 = line.Split('\t');
+                    for (int i = 0; i < nhorasmañana; i++) actual.horasMañana.Add(line2[i]);
+                }
+
+                int nhorastarde = 0;
+                if (actual.jornadaTarde)
+                {
+                    line = sr.ReadLine();
+                    nhorastarde = Convert.ToInt32(sr.ReadLine());
+                    actual.horasTarde = new List<string>();
+                    line = sr.ReadLine();
+                    line2 = line.Split('\t');
+                    for (int i = 0; i < nhorastarde; i++) actual.horasTarde.Add(line2[i]);
+                }
+
+                if (actual.jornadaMañana)
+                {
+                    actual.matrizMañana = new int[nhorasmañana, nsalones];
+                    line = sr.ReadLine();
+                    for (int i = 0; i < nhorasmañana; i++)
+                    {
+                        line = sr.ReadLine();
+                        line2 = line.Split('\t');
+                        for (int j = 0; j < nsalones; j++) actual.matrizMañana[i, j] = Convert.ToInt32(line2[j]);
+                    }
+                }
+
+                if (actual.jornadaTarde)
+                {
+                    actual.matrizTarde = new int[nhorastarde, nsalones];
+                    line = sr.ReadLine();
+                    for (int i = 0; i < nhorastarde; i++)
+                    {
+                        line = sr.ReadLine();
+                        line2 = line.Split('\t');
+                        for (int j = 0; j < nsalones; j++) actual.matrizTarde[i, j] = Convert.ToInt32(line2[j]);
+                    }
+                }
+            }
+            else actual.listoOrden = false;
+            sr.Close();
+
+            inicio.Close();
+            CerrarInicio();
+            AbrirSustentacion();
         }
 
         public void CerrarSalonesForm()
@@ -391,6 +883,28 @@ namespace SustIQ
                 agregarProfesorForm.ShowDialog();
             }
             else agregarProfesorForm.Select();
+        }
+
+        public void AbrirOrganizacionForm()
+        {
+            if (!this.abiertoOrganizacion)
+            {
+                organizacionForm = new OrganizacionForm();
+                organizacionForm.padre = this;
+                abiertoOrganizacion = true;
+                organizacionForm.ShowDialog();
+            }
+            else
+            {
+                organizacionForm.Select();
+                organizacionForm.CargarOrganizacion();
+            }
+        }
+
+        public void CerrarOrganizacionForm()
+        {
+            abiertoOrganizacion = false;
+            organizacionForm = null;
         }
 
         public void AbrirInicioForm()
@@ -424,12 +938,6 @@ namespace SustIQ
             abiertoAddProfesorForm = false;
         }
 
-        public void CerrarProyectosForm()
-        {
-            proyectosForm = null;
-            abiertoProyectosForm = false;
-        }
-
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -455,6 +963,11 @@ namespace SustIQ
         {
             this.EscribirProfesores();
             this.EscribirSalones();
+        }
+
+        private void nuevoProyectoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NuevaSustentacion();
         }
     }
 }

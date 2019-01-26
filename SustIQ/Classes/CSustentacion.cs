@@ -6,93 +6,85 @@ using System.Threading.Tasks;
 
 namespace SustIQ
 {
-    class CSustentacion
+    public class CSustentacion
     {
         /// <summary>
-        /// Lista de salones asignados para el dia de sustentaciones
-        /// </summary>
-        public List<CSalon> salones = null;
-
-        /// <summary>
-        /// Lista de proyectos a organizar
-        /// </summary>
-        public List<CProyecto> proyectos=null;
-
-        /// <summary>
-        /// Fecha de la sustentacion
+        /// fecha de la sustentacion
         /// </summary>
         public DateTime fecha;
 
         /// <summary>
-        /// Hora de inicio de la jornada de la mañana
+        /// indice de la hora de inicio de la mañana
         /// </summary>
-        public DateTime horaIniMañana;
+        public int iniMañana = 0;
 
         /// <summary>
-        /// Hora de fin de la jornada de la mañana
+        /// indice de la hora de fin de la mañana
         /// </summary>
-        public DateTime horaFinMañana;
+        public int finMañana = 10;
 
         /// <summary>
-        /// Hora de inicio de la jornada de la tarde
+        /// indice de la hora de inicio de la tarde
         /// </summary>
-        public DateTime horaIniTarde;
+        public int iniTarde = 0;
 
         /// <summary>
-        /// Hora de fin de la jornada de la tarde
+        /// indice de la hora de fin de la tarde
         /// </summary>
-        public DateTime horaFinTarde;
+        public int finTarde = 9;
 
         /// <summary>
-        /// Ruta en el disco duro del archivo de sustentacion
+        /// indica si se selecciono o no la jornada de la mañana
         /// </summary>
-        public string ruta;
+        public bool jornadaMañana = true;
 
         /// <summary>
-        /// Constructor vacío
+        /// indica si se seleccion o no la jornada de la tarde
+        /// </summary>
+        public bool jornadaTarde = true;
+
+        /// <summary>
+        /// indica si el salon, en cada indice, fue seleccionado o no
+        /// </summary>
+        public List<bool> salones = new List<bool>();
+
+        /// <summary>
+        /// lista que contiene todos los proyectos para esta sustentacion
+        /// </summary>
+        public List<CProyecto> proyectos = new List<CProyecto>();
+
+        /// <summary>
+        /// ruta donde se guarda el proyecto de sustentacion
+        /// </summary>
+        public string path = "";
+
+        /// <summary>
+        /// Organizacion de la mañana
+        /// </summary>
+        public int[,] matrizMañana;
+
+        /// <summary>
+        /// Organizacion de la tarde
+        /// </summary>
+        public int[,] matrizTarde;
+
+        /// <summary>
+        /// Indica si ya se genero una organizacion de proyectos para esta sustentacion
+        /// </summary>
+        public bool listoOrden=false;
+
+        public List<string> horasMañana = null;
+
+        public List<string> horasTarde = null;
+
+        public List<string> nombresSalones = null;
+
+        /// <summary>
+        /// Constructor vacio
         /// </summary>
         public CSustentacion()
         {
-            this.salones = null;
-            this.proyectos = null;
-            this.fecha = DateTime.Today;
-            this.horaFinMañana = DateTime.Now;
-            this.horaFinTarde = DateTime.Now;
-            this.horaIniMañana = DateTime.Now;
-            this.horaIniTarde = DateTime.Now;
-            this.ruta = "";
-        }
-
-        /// <summary>
-        /// Constructor con asignación
-        /// </summary>
-        /// <param name="_fecha"></param>
-        /// <param name="_iniMañana"></param>
-        /// <param name="_finMañana"></param>
-        /// <param name="_iniTarde"></param>
-        /// <param name="_finTarde"></param>
-        /// <param name="_proyectos"></param>
-        /// <param name="_salones"></param>
-        public CSustentacion(string path, DateTime _fecha, DateTime _iniMañana, DateTime _finMañana, DateTime _iniTarde, DateTime _finTarde, List<CProyecto> _proyectos, List<CSalon> _salones)
-        {
-            ruta = path;
-            fecha = _fecha;
-            horaIniMañana = _iniMañana;
-            horaFinMañana = _finMañana;
-            horaIniTarde = _iniTarde;
-            horaFinTarde = _finTarde;
-
-            proyectos = new List<CProyecto>();
-            for (int i = 0; i < _proyectos.Count; i++)
-            {
-                proyectos.Add(new CProyecto(_proyectos[i]));
-            }
-
-            salones = new List<CSalon>();
-            for (int i = 0; i < _salones.Count; i++)
-            {
-                salones.Add(new CSalon(_salones[i]));
-            }
+            fecha = DateTime.Today;
         }
     }
 }

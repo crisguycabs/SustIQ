@@ -49,6 +49,11 @@ namespace SustIQ
         public string soporte;
 
         /// <summary>
+        /// Indica si el proyecto se incluye en la organizacion
+        /// </summary>
+        public bool incluir;
+
+        /// <summary>
         /// Constructor vacio
         /// </summary>
         public CProyecto()
@@ -61,6 +66,7 @@ namespace SustIQ
             this.evaluador1 = null;
             this.evaluador2 = null;
             soporte = "";
+            incluir = true;
         }
 
         /// <summary>
@@ -86,6 +92,7 @@ namespace SustIQ
             evaluador1 = new CProfesor(eva1);
             evaluador2 = new CProfesor(eva2);
             soporte = pdf;
+            incluir = true;
         }
 
         /// <summary>
@@ -102,6 +109,7 @@ namespace SustIQ
             evaluador1 = new CProfesor(proy.evaluador1);
             evaluador2 = new CProfesor(proy.evaluador2);
             soporte = proy.soporte;
+            incluir = proy.incluir;
         }
 
         public static bool operator ==(CProyecto pr1, CProyecto pr2)

@@ -65,7 +65,7 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(538, 199);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(526, 187);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // logoPictureBox
@@ -74,7 +74,7 @@
             this.logoPictureBox.Location = new System.Drawing.Point(3, 3);
             this.logoPictureBox.Name = "logoPictureBox";
             this.tableLayoutPanel.SetRowSpan(this.logoPictureBox, 6);
-            this.logoPictureBox.Size = new System.Drawing.Size(87, 193);
+            this.logoPictureBox.Size = new System.Drawing.Size(86, 181);
             this.logoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.logoPictureBox.TabIndex = 12;
             this.logoPictureBox.TabStop = false;
@@ -83,11 +83,11 @@
             // 
             this.labelProductName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelProductName.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold);
-            this.labelProductName.Location = new System.Drawing.Point(102, 0);
+            this.labelProductName.Location = new System.Drawing.Point(99, 0);
             this.labelProductName.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
             this.labelProductName.MaximumSize = new System.Drawing.Size(0, 19);
             this.labelProductName.Name = "labelProductName";
-            this.labelProductName.Size = new System.Drawing.Size(433, 19);
+            this.labelProductName.Size = new System.Drawing.Size(424, 19);
             this.labelProductName.TabIndex = 19;
             this.labelProductName.Text = "SUSTIQ: Sustentaciones Escuela de Ingenieria Quimica - UIS";
             this.labelProductName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -95,11 +95,11 @@
             // labelVersion
             // 
             this.labelVersion.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelVersion.Location = new System.Drawing.Point(102, 25);
+            this.labelVersion.Location = new System.Drawing.Point(99, 23);
             this.labelVersion.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
             this.labelVersion.MaximumSize = new System.Drawing.Size(0, 19);
             this.labelVersion.Name = "labelVersion";
-            this.labelVersion.Size = new System.Drawing.Size(433, 19);
+            this.labelVersion.Size = new System.Drawing.Size(424, 19);
             this.labelVersion.TabIndex = 0;
             this.labelVersion.Text = "v1.0";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -107,23 +107,23 @@
             // labelCopyright
             // 
             this.labelCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelCopyright.Location = new System.Drawing.Point(102, 50);
+            this.labelCopyright.Location = new System.Drawing.Point(99, 46);
             this.labelCopyright.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
             this.labelCopyright.MaximumSize = new System.Drawing.Size(0, 19);
             this.labelCopyright.Name = "labelCopyright";
-            this.labelCopyright.Size = new System.Drawing.Size(433, 19);
+            this.labelCopyright.Size = new System.Drawing.Size(424, 19);
             this.labelCopyright.TabIndex = 21;
-            this.labelCopyright.Text = "Copyright: M.Sc. Crisostomo Barajas-Solano, Ph.D. Paola Maradei";
+            this.labelCopyright.Text = "Copyright: M.Sc. C. Barajas-Solano, Ph.D. Paola Maradei";
             this.labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelCompanyName
             // 
             this.labelCompanyName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelCompanyName.Location = new System.Drawing.Point(102, 75);
+            this.labelCompanyName.Location = new System.Drawing.Point(99, 69);
             this.labelCompanyName.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
             this.labelCompanyName.MaximumSize = new System.Drawing.Size(0, 19);
             this.labelCompanyName.Name = "labelCompanyName";
-            this.labelCompanyName.Size = new System.Drawing.Size(433, 19);
+            this.labelCompanyName.Size = new System.Drawing.Size(424, 19);
             this.labelCompanyName.TabIndex = 22;
             this.labelCompanyName.Text = "Universidad Industrial de Santander";
             this.labelCompanyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -131,17 +131,17 @@
             // textBoxDescription
             // 
             this.textBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxDescription.Location = new System.Drawing.Point(102, 103);
+            this.textBoxDescription.Location = new System.Drawing.Point(99, 95);
             this.textBoxDescription.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.ReadOnly = true;
             this.textBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxDescription.Size = new System.Drawing.Size(433, 60);
+            this.textBoxDescription.Size = new System.Drawing.Size(424, 55);
             this.textBoxDescription.TabIndex = 23;
             this.textBoxDescription.TabStop = false;
             this.textBoxDescription.Text = "SUSTIQ permite la generación rápida y eficiente de las jornadas de sustentaciones" +
-    " de proyectos de grado de la Escuela de Ingeniería Química - UIS";
+    " de proyectos de grado de la Escuela de Ingniería Química - UIS";
             // 
             // okButton
             // 
@@ -149,7 +149,7 @@
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.okButton.FlatAppearance.BorderColor = System.Drawing.Color.DarkRed;
             this.okButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.okButton.Location = new System.Drawing.Point(448, 169);
+            this.okButton.Location = new System.Drawing.Point(436, 157);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(87, 27);
             this.okButton.TabIndex = 24;
@@ -158,10 +158,10 @@
             // AboutForm
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(558, 221);
+            this.ClientSize = new System.Drawing.Size(546, 209);
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel);
             this.Font = new System.Drawing.Font("Calibri", 10F);

@@ -40,9 +40,9 @@
             // txtEdificio
             // 
             this.txtEdificio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtEdificio.Location = new System.Drawing.Point(73, 41);
+            this.txtEdificio.Location = new System.Drawing.Point(88, 41);
             this.txtEdificio.Name = "txtEdificio";
-            this.txtEdificio.Size = new System.Drawing.Size(222, 23);
+            this.txtEdificio.Size = new System.Drawing.Size(206, 23);
             this.txtEdificio.TabIndex = 2;
             // 
             // label2
@@ -66,9 +66,9 @@
             // txtNombre
             // 
             this.txtNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNombre.Location = new System.Drawing.Point(73, 8);
+            this.txtNombre.Location = new System.Drawing.Point(88, 8);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(222, 23);
+            this.txtNombre.Size = new System.Drawing.Size(206, 23);
             this.txtNombre.TabIndex = 1;
             // 
             // btnClose
@@ -82,9 +82,9 @@
             this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gainsboro;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(213, 75);
+            this.btnClose.Location = new System.Drawing.Point(213, 83);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(82, 28);
+            this.btnClose.Size = new System.Drawing.Size(82, 31);
             this.btnClose.TabIndex = 4;
             this.btnClose.Text = "Cancelar";
             this.btnClose.UseVisualStyleBackColor = false;
@@ -100,9 +100,9 @@
             this.btnAdd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gainsboro;
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnAdd.Location = new System.Drawing.Point(124, 75);
+            this.btnAdd.Location = new System.Drawing.Point(124, 83);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(82, 28);
+            this.btnAdd.Size = new System.Drawing.Size(82, 31);
             this.btnAdd.TabIndex = 3;
             this.btnAdd.Text = "Agregar";
             this.btnAdd.UseVisualStyleBackColor = false;
@@ -111,11 +111,11 @@
             // AddSalon
             // 
             this.AcceptButton = this.btnAdd;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(303, 110);
+            this.ClientSize = new System.Drawing.Size(303, 126);
             this.ControlBox = false;
             this.Controls.Add(this.txtEdificio);
             this.Controls.Add(this.label2);

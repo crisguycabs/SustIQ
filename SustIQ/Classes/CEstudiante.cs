@@ -9,11 +9,6 @@ namespace SustIQ
     public class CEstudiante
     {
         /// <summary>
-        /// Codigo del estudiante
-        /// </summary>
-        public int codigo;
-
-        /// <summary>
         /// Nombres del estudiante
         /// </summary>
         public string nombre;
@@ -28,8 +23,7 @@ namespace SustIQ
         /// </summary>
         public CEstudiante()
         {
-            codigo = 0;
-            nombre = "N";
+            nombre = null;            
             correo = null;
         }
 
@@ -39,9 +33,8 @@ namespace SustIQ
         /// <param name="cod">codigo del estudiante</param>
         /// <param name="name">nombres del estudiante</param>
         /// <param name="lastname">apellidos del estudiante</param>
-        public CEstudiante(int cod, string name, string mail)
-        {
-            codigo = cod;
+        public CEstudiante(string name, string mail)
+        {            
             nombre = name;
             correo = mail;
         }
@@ -52,7 +45,6 @@ namespace SustIQ
         /// <param name="est">estudiante a replicar</param>
         public CEstudiante(CEstudiante est)
         {
-            codigo = est.codigo;
             nombre = est.nombre;
             correo = est.correo;
         }

@@ -34,9 +34,19 @@ namespace SustIQ
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            padre.AbrirSustentacionesForm();
-            padre.CerrarInicio();
-            this.Close();
+            padre.NuevaSustentacion();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog abrir = new OpenFileDialog();
+            abrir.Title = "Seleccione el archivo de sustentacion a abrir...";
+            abrir.Filter = "Archivo de sustentacion (*.sust)|*.sust";
+            abrir.DefaultExt = "sust";
+            if (abrir.ShowDialog() == DialogResult.OK)
+            {
+                padre.CargarSustentacion(abrir.FileName);
+            }
         }
     }
 }
