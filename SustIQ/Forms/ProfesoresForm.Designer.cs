@@ -94,6 +94,7 @@
             this.dgvProf.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvProf.Size = new System.Drawing.Size(572, 437);
             this.dgvProf.TabIndex = 1;
+            this.dgvProf.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProf_CellContentDoubleClick);
             // 
             // nombres
             // 

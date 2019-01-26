@@ -71,5 +71,14 @@ namespace SustIQ
                 this.LlenarDGV();
             }
         }
+
+        private void dgvProf_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = dgvProf.CurrentCell.RowIndex;
+            padre.AbrirAddProfesoresForm(false, index);
+            this.LlenarDGV();
+            dgvProf.Rows[index].Selected = true;
+            dgvProf.CurrentCell = dgvProf.Rows[index].Cells[0];
+        }
     }
 }
