@@ -969,5 +969,10 @@ namespace SustIQ
         {
             NuevaSustentacion();
         }
+
+        private void verConfiguracionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirConfiguracion();
+        }
     }
 }

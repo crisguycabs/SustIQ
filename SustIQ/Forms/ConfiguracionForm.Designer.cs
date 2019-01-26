@@ -52,6 +52,7 @@
             this.txtCorreo.Name = "txtCorreo";
             this.txtCorreo.Size = new System.Drawing.Size(210, 24);
             this.txtCorreo.TabIndex = 1;
+            this.txtCorreo.TextChanged += new System.EventHandler(this.txtCorreo_TextChanged);
             // 
             // txtPass
             // 
@@ -59,6 +60,7 @@
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(210, 24);
             this.txtPass.TabIndex = 3;
+            this.txtPass.TextChanged += new System.EventHandler(this.txtPass_TextChanged);
             // 
             // label2
             // 
@@ -91,6 +93,7 @@
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSave.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnSave.Enabled = false;
             this.btnSave.FlatAppearance.BorderColor = System.Drawing.Color.DarkRed;
             this.btnSave.FlatAppearance.BorderSize = 2;
             this.btnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
@@ -122,6 +125,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfiguracionForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CONFIGURACION";
             this.Load += new System.EventHandler(this.ConfiguracionForm_Load);
             this.ResumeLayout(false);

@@ -23,6 +23,7 @@ namespace SustIQ
         {
             txtCorreo.Text = padre.correo;
             txtPass.Text = padre.password;
+            this.btnSave.Enabled = false;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -33,11 +34,29 @@ namespace SustIQ
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            padre.correo = txtCorreo.Text;
-            padre.password = txtPass.Text;
+            if(MessageBox.Show("Esta seguro/a que quiere realizar este cambio?","Confirmación de cambios",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
+            {
+                if (MessageBox.Show("Se perderá la información previa. Desea continuar?", "Confirmación de cambios", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    padre.correo = txtCorreo.Text;
+                    padre.password = txtPass.Text;
 
-            padre.GuardarConfiguracion();
-            btnClose_Click(sender, e);
+                    padre.GuardarConfiguracion();
+                    btnClose_Click(sender, e);
+                }
+                else ConfiguracionForm_Load(sender, e);
+            }
+            else ConfiguracionForm_Load(sender, e);
+        }
+
+        private void txtCorreo_TextChanged(object sender, EventArgs e)
+        {
+            btnSave.Enabled = true;
+        }
+
+        private void txtPass_TextChanged(object sender, EventArgs e)
+        {
+            btnSave.Enabled = true;
         }
     }
 }
