@@ -208,7 +208,7 @@ namespace SustIQ
 
             padre.actual.fecha = dateFecha.Value;
 
-            switch (MessageBox.Show("La organización de los proyectos de grado tardara unos minutos, agradecemos su paciencia.\r\n\r\nPresione SI si desea organizar las sustentaciones de manera OPTIMIZADA.\r\n\r\nPresione NO si desea organizar las sustentaciones de manera ALEATORIA.", "Tipo de organizacion", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
+            switch (MessageBox.Show("La organización de los proyectos de grado TARDARA UNOS MINUTOS, agradecemos su paciencia.\r\n\r\nPresione SI si desea organizar las sustentaciones de manera OPTIMIZADA.\r\n\r\nPresione NO si desea organizar las sustentaciones de manera ALEATORIA.", "Tipo de organizacion", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
             {
                 case System.Windows.Forms.DialogResult.Yes:
                     OrganizarOptimizado();

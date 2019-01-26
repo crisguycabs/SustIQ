@@ -83,4 +83,3 @@ C:\Users\CROSS-HDSP\Google Drive\SustIQ\SustIQ\obj\Debug\SustIQ.s.resources
 C:\Users\CROSS-HDSP\Google Drive\SustIQ\SustIQ\obj\Debug\SustIQ.csproj.GenerateResource.Cache
 C:\Users\CROSS-HDSP\Google Drive\SustIQ\SustIQ\obj\Debug\SustIQ.exe
 C:\Users\CROSS-HDSP\Google Drive\SustIQ\SustIQ\obj\Debug\SustIQ.pdb
-C:\Users\CROSS-HDSP\Google Drive\SustIQ\SustIQ\obj\Debug\SustIQ.csprojResolveAssemblyReference.cache
