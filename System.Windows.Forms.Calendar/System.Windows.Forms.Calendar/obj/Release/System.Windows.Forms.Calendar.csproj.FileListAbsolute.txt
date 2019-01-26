@@ -1,0 +1,4 @@
+C:\Users\Hdsp\Dropbox\SustIQ\System.Windows.Forms.Calendar\System.Windows.Forms.Calendar\bin\Release\System.Windows.Forms.Calendar.dll
+C:\Users\Hdsp\Dropbox\SustIQ\System.Windows.Forms.Calendar\System.Windows.Forms.Calendar\bin\Release\System.Windows.Forms.Calendar.pdb
+C:\Users\Hdsp\Dropbox\SustIQ\System.Windows.Forms.Calendar\System.Windows.Forms.Calendar\obj\Release\System.Windows.Forms.Calendar.dll
+C:\Users\Hdsp\Dropbox\SustIQ\System.Windows.Forms.Calendar\System.Windows.Forms.Calendar\obj\Release\System.Windows.Forms.Calendar.pdb
