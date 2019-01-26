@@ -291,21 +291,9 @@ namespace SustIQ
                         {
                             if (matrizMañana[ihora, isalon] >= 0)
                             {
-                                if (!padre.actual.proyectos[matrizMañana[ihora, isalon]].director.dispMañana[ihora, dia])
-                                {
-                                    aprobadoMañana = false;
-                                    break; 
-                                }
-                                if (!padre.actual.proyectos[matrizMañana[ihora, isalon]].evaluador1.dispMañana[ihora, dia])
-                                {
-                                    aprobadoMañana = false;
-                                    break;
-                                }
-                                if (!padre.actual.proyectos[matrizMañana[ihora, isalon]].evaluador2.dispMañana[ihora, dia])
-                                {
-                                    aprobadoMañana = false;
-                                    break;
-                                }
+                                
+                                
+                                
                             }
                         }
 
@@ -355,21 +343,9 @@ namespace SustIQ
                         {
                             if (matrizTarde[ihora, isalon] >= 0)
                             {
-                                if (!padre.actual.proyectos[matrizTarde[ihora, isalon]].director.dispTarde[ihora, dia])
-                                {
-                                    aprobadoTarde = false;
-                                    break;
-                                }
-                                if (!padre.actual.proyectos[matrizTarde[ihora, isalon]].evaluador1.dispTarde[ihora, dia])
-                                {
-                                    aprobadoTarde = false;
-                                    break;
-                                }
-                                if (!padre.actual.proyectos[matrizTarde[ihora, isalon]].evaluador2.dispTarde[ihora, dia])
-                                {
-                                    aprobadoTarde = false;
-                                    break;
-                                }
+                                
+                                
+                                
                             }
                         }
 

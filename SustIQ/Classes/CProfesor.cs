@@ -21,13 +21,7 @@ namespace SustIQ
         /// <summary>
         /// Direccion de correo del profesor
         /// </summary>
-        public string correo;
-
-        public bool[,] dispMañana = null;
-
-        public bool[,] dispTarde = null;
-
-        public bool planta = false;
+        public string correo;        
 
         /// <summary>
         /// Constructor vacio
@@ -36,21 +30,7 @@ namespace SustIQ
         {
             nombres = "N";
             apellidos = "N";
-            correo = null;
-
-            dispMañana = new bool[10,2];
-            for (int i = 0; i < 10; i++)
-            {
-                dispMañana[i,0] = true;
-                dispMañana[i, 1] = true;
-            }
-
-            dispTarde = new bool[9,2];
-            for (int i = 0; i < 9; i++)
-            {
-                dispTarde[i,0] = true;
-                dispTarde[i, 1] = true;
-            }
+            correo = null;            
         }
 
         /// <summary>
@@ -62,21 +42,7 @@ namespace SustIQ
         {
             nombres = name;
             apellidos = lastname;
-            correo = mail;
-
-            dispMañana = new bool[10, 2];
-            for (int i = 0; i < 10; i++)
-            {
-                dispMañana[i, 0] = true;
-                dispMañana[i, 1] = true;
-            }
-
-            dispTarde = new bool[9, 2];
-            for (int i = 0; i < 9; i++)
-            {
-                dispTarde[i, 0] = true;
-                dispTarde[i, 1] = true;
-            }
+            correo = mail;            
         }
 
         /// <summary>
@@ -87,21 +53,7 @@ namespace SustIQ
         {
             nombres = prof.nombres;
             apellidos = prof.apellidos;
-            correo = prof.correo;
-
-            for (int i = 0; i < 10; i++)
-            {
-                dispMañana[i,0] = prof.dispMañana[i,0];
-                dispMañana[i, 1] = prof.dispMañana[i, 1];
-            }
-
-            for (int i = 0; i < 9; i++)
-            {
-                dispTarde[i,0] = prof.dispTarde[i,0];
-                dispTarde[i, 1] = prof.dispTarde[i, 1];
-            }
-
-            planta = prof.planta;
+            correo = prof.correo;            
         }
 
         public static bool operator ==(CProfesor pr1, CProfesor pr2)

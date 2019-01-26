@@ -231,54 +231,13 @@ namespace SustIQ
             sw.WriteLine("2018");
             sw.WriteLine("");
             sw.WriteLine(profesores.Count.ToString());
-            sw.WriteLine("--------------------------");
-            
+                        
             string line;
             for (int i = 0; i < profesores.Count; i++)
             {
                 // se escriben los datos personales
                 line = profesores[i].nombres + '\t' + profesores[i].apellidos + '\t' + profesores[i].correo;
-                if (profesores[i].planta) line = line + "\t1";
-                else line = line + "\t0";
-                sw.WriteLine(line);
-
-                // se escribe la disponibilidad para el dia lunes en la mañana, pero en forma horizontal
-                line = "";
-                for (int j = 0; j < profesores[i].dispMañana.GetLength(0); j++)
-                {
-                    if(profesores[i].dispMañana[j,0]) line += "1\t";
-                    else line += "0\t";
-                }
-                sw.WriteLine(line);
-
-                // se escribe la disponibilidad para el dia lunes en la tarde, pero en forma horizontal
-                line = "";
-                for (int j = 0; j < profesores[i].dispTarde.GetLength(0); j++)
-                {
-                    if (profesores[i].dispTarde[j, 0]) line += "1\t";
-                    else line += "0\t";
-                }
-                sw.WriteLine(line);
-
-                // se escribe la disponibilidad para el dia viernes en la mañana, pero en forma horizontal
-                line = "";
-                for (int j = 0; j < profesores[i].dispMañana.GetLength(0); j++)
-                {
-                    if (profesores[i].dispMañana[j, 1]) line += "1\t";
-                    else line += "0\t";
-                }
-                sw.WriteLine(line);
-
-                // se escribe la disponibilidad para el dia viernes en la tarde, pero en forma horizontal
-                line = "";
-                for (int j = 0; j < profesores[i].dispTarde.GetLength(0); j++)
-                {
-                    if (profesores[i].dispTarde[j, 1]) line += "1\t";
-                    else line += "0\t";
-                }
-                sw.WriteLine(line);
-
-                sw.WriteLine("--------------------------");
+                sw.WriteLine(line);                                
             }
 
             sw.Close();
@@ -307,36 +266,12 @@ namespace SustIQ
 
                 for (int i = 0; i < nprof; i++)
                 {
-                    line = sr.ReadLine();
-
-                    line = sr.ReadLine();
+                    line = sr.ReadLine();                    
                     line2 = line.Split('\t');
                     profesores.Add(new CProfesor());
                     profesores[i].nombres = line2[0];
                     profesores[i].apellidos = line2[1];
-                    profesores[i].correo = line2[2];
-                    profesores[i].planta = (line2[3] == "1");
-
-                    // disponibilidad lunes en la mañana
-                    line = sr.ReadLine();
-                    line2 = line.Split('\t');
-                    for (int j = 0; j < profesores[i].dispMañana.GetLength(0); j++) profesores[i].dispMañana[j, 0] = (line2[j] == "1");
-
-                    // disponibilidad lunes en la tarde
-                    line = sr.ReadLine();
-                    line2 = line.Split('\t');
-                    for (int j = 0; j < profesores[i].dispTarde.GetLength(0); j++) profesores[i].dispTarde[j, 0] = (line2[j] == "1");
-
-                    // disponibilidad viernes en la mañana
-                    line = sr.ReadLine();
-                    line2 = line.Split('\t');
-                    for (int j = 0; j < profesores[i].dispMañana.GetLength(0); j++) profesores[i].dispMañana[j, 1] = (line2[j] == "1");
-
-                    // disponibilidad viernes en la tarde
-                    line = sr.ReadLine();
-                    line2 = line.Split('\t');
-                    for (int j = 0; j < profesores[i].dispTarde.GetLength(0); j++) profesores[i].dispTarde[j, 1] = (line2[j] == "1");
-                    
+                    profesores[i].correo = line2[2];                    
                 }
 
                 sr.Close();

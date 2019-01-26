@@ -79,9 +79,9 @@
             // txtNombres
             // 
             this.txtNombres.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNombres.Location = new System.Drawing.Point(102, 11);
+            this.txtNombres.Location = new System.Drawing.Point(94, 11);
             this.txtNombres.Name = "txtNombres";
-            this.txtNombres.Size = new System.Drawing.Size(214, 28);
+            this.txtNombres.Size = new System.Drawing.Size(222, 24);
             this.txtNombres.TabIndex = 0;
             // 
             // label1
@@ -89,7 +89,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(15, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 21);
+            this.label1.Size = new System.Drawing.Size(66, 17);
             this.label1.TabIndex = 28;
             this.label1.Text = "Nombres: ";
             // 
@@ -98,7 +98,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(14, 48);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(79, 21);
+            this.label2.Size = new System.Drawing.Size(62, 17);
             this.label2.TabIndex = 28;
             this.label2.Text = "Apellidos:";
             // 
@@ -107,30 +107,30 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(14, 81);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 21);
+            this.label3.Size = new System.Drawing.Size(47, 17);
             this.label3.TabIndex = 28;
             this.label3.Text = "e-mail:";
             // 
             // txtApellidos
             // 
             this.txtApellidos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtApellidos.Location = new System.Drawing.Point(102, 44);
+            this.txtApellidos.Location = new System.Drawing.Point(94, 44);
             this.txtApellidos.Name = "txtApellidos";
-            this.txtApellidos.Size = new System.Drawing.Size(214, 28);
+            this.txtApellidos.Size = new System.Drawing.Size(222, 24);
             this.txtApellidos.TabIndex = 1;
             // 
             // txtCorreo
             // 
             this.txtCorreo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtCorreo.Location = new System.Drawing.Point(102, 77);
+            this.txtCorreo.Location = new System.Drawing.Point(94, 77);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(214, 28);
+            this.txtCorreo.Size = new System.Drawing.Size(222, 24);
             this.txtCorreo.TabIndex = 3;
             // 
             // AddProfesoresForm
             // 
             this.AcceptButton = this.btnAdd;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.CancelButton = this.btnClose;
