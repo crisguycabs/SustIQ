@@ -39,6 +39,7 @@
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.dgvOrden = new System.Windows.Forms.DataGridView();
+            this.chkTest = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrden)).BeginInit();
@@ -65,6 +66,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.chkTest);
             this.panel1.Controls.Add(this.btnSend);
             this.panel1.Controls.Add(this.btnAgain);
             this.panel1.Controls.Add(this.btnCopy);
@@ -85,7 +87,7 @@
             this.btnSend.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gainsboro;
             this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSend.Font = new System.Drawing.Font("Calibri", 10F);
-            this.btnSend.Location = new System.Drawing.Point(378, 7);
+            this.btnSend.Location = new System.Drawing.Point(4, 7);
             this.btnSend.Margin = new System.Windows.Forms.Padding(4);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(136, 31);
@@ -187,6 +189,16 @@
             this.dgvOrden.Size = new System.Drawing.Size(892, 530);
             this.dgvOrden.TabIndex = 1;
             // 
+            // chkTest
+            // 
+            this.chkTest.AutoSize = true;
+            this.chkTest.Location = new System.Drawing.Point(147, 13);
+            this.chkTest.Name = "chkTest";
+            this.chkTest.Size = new System.Drawing.Size(139, 19);
+            this.chkTest.TabIndex = 15;
+            this.chkTest.Text = "Enviar como PRUEBA";
+            this.chkTest.UseVisualStyleBackColor = true;
+            // 
             // OrganizacionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -205,6 +217,7 @@
             this.Load += new System.EventHandler(this.OrganizacionForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrden)).EndInit();
             this.ResumeLayout(false);
 
@@ -219,5 +232,6 @@
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnSend;
+        private System.Windows.Forms.CheckBox chkTest;
     }
 }

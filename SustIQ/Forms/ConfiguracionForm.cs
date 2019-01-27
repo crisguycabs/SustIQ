@@ -23,6 +23,8 @@ namespace SustIQ
         {
             txtCorreo.Text = padre.correo;
             txtPass.Text = padre.password;
+            txtCoor.Text = padre.coordinador;
+            txtDir.Text = padre.director;
             this.btnSave.Enabled = false;
         }
 
@@ -40,6 +42,8 @@ namespace SustIQ
                 {
                     padre.correo = txtCorreo.Text;
                     padre.password = txtPass.Text;
+                    padre.coordinador = txtCoor.Text;
+                    padre.director = txtDir.Text;
 
                     padre.GuardarConfiguracion();
                     btnClose_Click(sender, e);
@@ -55,6 +59,16 @@ namespace SustIQ
         }
 
         private void txtPass_TextChanged(object sender, EventArgs e)
+        {
+            btnSave.Enabled = true;
+        }
+
+        private void txtCoor_TextChanged(object sender, EventArgs e)
+        {
+            btnSave.Enabled = true;
+        }
+
+        private void txtDir_TextChanged(object sender, EventArgs e)
         {
             btnSave.Enabled = true;
         }

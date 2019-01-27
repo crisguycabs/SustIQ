@@ -117,6 +117,10 @@ namespace SustIQ
 
         public string password = "";
 
+        public string coordinador = "";
+
+        public string director="";
+
         public ConfiguracionForm configuracionForm = null;
 
         public bool abiertoConfiguracion = false;
@@ -128,7 +132,7 @@ namespace SustIQ
             InitializeComponent();
         }
 
-        public static bool EnviarMailProyecto(CProyecto pa,string correo, string pass, DateTime fecha, string hora, string salon)
+        public static bool EnviarMailProyecto(CProyecto pa, string director, string coordinador, string correo, string pass, string cuerpo, bool test, DateTime fecha, string hora, string salon)
         {
             SmtpClient client = new SmtpClient("smtp-mail.outlook.com");
 
@@ -143,15 +147,22 @@ namespace SustIQ
             {
                 var mail = new MailMessage();
                 mail.From = new MailAddress(correo);
+                
                 mail.To.Add(pa.estudiante1.correo);
-                mail.To.Add(pa.estudiante2.correo);
-                mail.Subject = "Horario de sustentacion de proyecto de grado";
-                mail.Body = "Cordial saludo\r\n\r\n";
+                if ((pa.estudiante2.correo!=null)&(pa.estudiante2.correo!="")) mail.To.Add(pa.estudiante2.correo);
+
+                mail.CC.Add(director);
+                mail.CC.Add(coordinador);
+
+                if (test) mail.Subject = "CORREO DE PRUEBA - HACER CASO OMISO";
+                else mail.Subject = "Horario de sustentacion de proyecto de grado";
+                
+                mail.Body = cuerpo + "\r\n\r\n";
                 mail.Body = mail.Body + "Codigo: " + pa.codigo + "\r\n";
                 mail.Body = mail.Body + "Nombre: " + pa.nombre.ToUpper() + "\r\n\r\n";
-                mail.Body = mail.Body + fecha.Day + " de " + fecha.Month + ", " + hora + ", " + " salon " + salon + "\r\n\r\n";
+                mail.Body = mail.Body + fecha.Day + " de " + System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(fecha.Month) + ", " + hora + ", " + " salon " + salon + "\r\n\r\n";
                 mail.Body = mail.Body + "Director: " + pa.director.nombres.ToUpper() + " " + pa.director.apellidos.ToUpper() + "\r\n";
-                mail.Body = mail.Body + "Evaluadores: " + pa.evaluador1.nombres.ToUpper() + " " + pa.evaluador1.apellidos.ToUpper() + " | " + pa.evaluador2.nombres.ToUpper() + " " + pa.evaluador2.apellidos.ToUpper() + "\r\n\r\n";
+                mail.Body = mail.Body + "Evaluadores: " + pa.evaluador1.nombres.ToUpper() + " " + pa.evaluador1.apellidos.ToUpper() + ", " + pa.evaluador2.nombres.ToUpper() + " " + pa.evaluador2.apellidos.ToUpper() + "\r\n\r\n";
                 mail.Attachments.Add(new Attachment(pa.soporte));
                 client.Send(mail);
                 return true;
@@ -450,9 +461,8 @@ namespace SustIQ
             {
                 salonesForm = new SalonesForm();
                 salonesForm.padre = this;
-                salonesForm.MdiParent = this;
                 abiertoSalonesForm = true;
-                salonesForm.Show();
+                salonesForm.ShowDialog();
             }
             else salonesForm.Select();
         }
@@ -511,6 +521,8 @@ namespace SustIQ
 
                 correo = sr.ReadLine();
                 password = sr.ReadLine();
+                coordinador=sr.ReadLine();
+                director=sr.ReadLine();
 
                 sr.Close();
             }
@@ -537,6 +549,8 @@ namespace SustIQ
             sw.WriteLine("");
             sw.WriteLine(correo);
             sw.WriteLine(password);
+            sw.WriteLine(coordinador);
+            sw.WriteLine(director);
 
             sw.Close();
         }
@@ -832,7 +846,7 @@ namespace SustIQ
             else
             {
                 organizacionForm.Select();
-                organizacionForm.CargarOrganizacion();
+                //organizacionForm.CargarOrganizacion();
             }
         }
 

@@ -35,6 +35,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.txtCoor = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtDir = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -42,13 +46,13 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(8, 14);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 17);
+            this.label1.Size = new System.Drawing.Size(113, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Correo: ";
+            this.label1.Text = "Cuenta de Correo: ";
             // 
             // txtCorreo
             // 
-            this.txtCorreo.Location = new System.Drawing.Point(86, 10);
+            this.txtCorreo.Location = new System.Drawing.Point(141, 10);
             this.txtCorreo.Name = "txtCorreo";
             this.txtCorreo.Size = new System.Drawing.Size(210, 24);
             this.txtCorreo.TabIndex = 1;
@@ -56,7 +60,7 @@
             // 
             // txtPass
             // 
-            this.txtPass.Location = new System.Drawing.Point(86, 40);
+            this.txtPass.Location = new System.Drawing.Point(141, 40);
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(210, 24);
             this.txtPass.TabIndex = 3;
@@ -81,7 +85,7 @@
             this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gainsboro;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Calibri", 10F);
-            this.btnClose.Location = new System.Drawing.Point(214, 82);
+            this.btnClose.Location = new System.Drawing.Point(268, 160);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(82, 28);
             this.btnClose.TabIndex = 5;
@@ -100,7 +104,7 @@
             this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gainsboro;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Calibri", 10F);
-            this.btnSave.Location = new System.Drawing.Point(125, 82);
+            this.btnSave.Location = new System.Drawing.Point(179, 160);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(82, 28);
             this.btnSave.TabIndex = 4;
@@ -108,13 +112,51 @@
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // txtCoor
+            // 
+            this.txtCoor.Location = new System.Drawing.Point(141, 85);
+            this.txtCoor.Name = "txtCoor";
+            this.txtCoor.Size = new System.Drawing.Size(210, 24);
+            this.txtCoor.TabIndex = 7;
+            this.txtCoor.TextChanged += new System.EventHandler(this.txtCoor_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 89);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(125, 17);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Correo Coordinador: ";
+            // 
+            // txtDir
+            // 
+            this.txtDir.Location = new System.Drawing.Point(141, 115);
+            this.txtDir.Name = "txtDir";
+            this.txtDir.Size = new System.Drawing.Size(210, 24);
+            this.txtDir.TabIndex = 9;
+            this.txtDir.TextChanged += new System.EventHandler(this.txtDir_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(8, 119);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(103, 17);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Correo Director: ";
+            // 
             // ConfiguracionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(304, 117);
+            this.ClientSize = new System.Drawing.Size(358, 195);
             this.ControlBox = false;
+            this.Controls.Add(this.txtDir);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtCoor);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtPass);
@@ -141,5 +183,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.TextBox txtCoor;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtDir;
+        private System.Windows.Forms.Label label4;
     }
 }
